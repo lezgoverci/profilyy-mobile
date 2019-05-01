@@ -1,24 +1,37 @@
-import React, { Component } from 'react';
-import { AppRegistry, View } from 'react-native';
+import React, {Component} from 'react';
+import {createSwitchNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 
-export default class FlexDimensionsBasics extends Component {
+
+import WelcomeScreen from './components/public/Welcome';
+import LoginScreen from './components/public/Login';
+import RegisterScreen from './components/public/Register';
+import ProfileScreen from './components/public/Profile';
+
+export default class App extends Component {
   render() {
     return (
-      // Try removing the `flex: 1` on the parent View.
-      // The parent will not have dimensions, so the children can't expand.
-      // What if you add `height: 300` instead of `flex: 1`?
-      <View style={{flex:1, width:300}}>
-      <View style={{flex: 2}}>
-        <View style={{flex: 1, backgroundColor: 'powderblue'}} />
-        <View style={{flex: 2, backgroundColor: 'skyblue'}} />
-        <View style={{flex: 1, backgroundColor: 'steelblue'}} />
-      </View>
-      <View style={{flex: 2}}>
-      <View style={{flex: 1, backgroundColor: 'powderblue'}} />
-      <View style={{flex: 2, backgroundColor: 'skyblue'}} />
-      <View style={{flex: 1, backgroundColor: 'steelblue'}} />
-    </View>
-    </View>
+      <AppContainer/>
     );
   }
 }
+
+const AuthStackNavigator = createStackNavigator({
+  Register: {screen: RegisterScreen},
+  Login:{screen: LoginScreen},
+},{
+  initialRouteName: 'Login'
+});
+
+const AppStackNavigator = createStackNavigator({
+  Profile: ProfileScreen
+});
+
+const AppSwitchNavigator = createSwitchNavigator({
+  Welcome: WelcomeScreen,
+  Auth: AuthStackNavigator,
+  App: AppStackNavigator
+},{
+  initialRouteName: 'Welcome'
+});
+
+const AppContainer = createAppContainer(AppSwitchNavigator);
