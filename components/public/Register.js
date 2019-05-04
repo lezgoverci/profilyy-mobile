@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {TextInput, View, Picker, Text, ScrollView, Button, ToastAndroid} from 'react-native';
 import {url as appUrl} from '../../global.json';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from "react-native-vector-icons/Ionicons";
 
 class Register extends Component{
     constructor(props){
@@ -76,6 +77,7 @@ class Register extends Component{
         return(
             <ScrollView >
                 <View style={{paddingRight:30, paddingLeft:30, paddingBottom:60}} >
+                    <Icon name="md-arrow-back" size={30} onPress={() => this.props.navigation.navigate('Login')}/>
                     <Text style={{marginTop:30}}>First name</Text>
                     <TextInput
                         style={{height: 40, borderColor: 'gray', borderWidth: 1, marginTop:10}}

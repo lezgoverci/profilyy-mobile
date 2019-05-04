@@ -14,9 +14,9 @@ class Welcome extends Component{
         try{
             const value = await AsyncStorage.getItem('access_token');
             if(value !== null){
-                this.props.navigation.navigate('App');
+                this.props.navigation.navigate('Profile');
             }else{
-                this.props.navigation.navigate('Auth',{
+                this.props.navigation.navigate('Login',{
                     access_token: value
                 });
             }

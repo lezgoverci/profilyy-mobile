@@ -3,11 +3,9 @@ import {Button, View, Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 class Logout extends Component{
-
     static navigationOptions = {
-        drawerLabel: 'Logout',
+        headerTitle: 'Logout',
       };
-
     handleLogout(e){
         e.preventDefault();
         this.removeToken().then(
@@ -34,7 +32,6 @@ class Logout extends Component{
                     onPress={(e) => { this.handleLogout(e)}}
                     title="Logout" 
                 />
-                <Button onPress={() => {this.props.navigation.openDrawer()}} title="Drawer" />
             </View>
         )
     }

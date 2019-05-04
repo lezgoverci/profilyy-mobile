@@ -3,17 +3,13 @@ import {Button, View, Text} from 'react-native';
 
 
 class Facebook extends Component{
-
     static navigationOptions = {
-        drawerLabel: 'Facebook',
+        headerTitle: 'Facebook',
       };
-
     render(){
         return(
             <View>
                 <Text>Facebook</Text>
-                
-                <Button onPress={() => {this.props.navigation.openDrawer()}} title="Drawer" />
             </View>
         )
     }

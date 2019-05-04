@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {createSwitchNavigator, createStackNavigator, createDrawerNavigator, createAppContainer} from 'react-navigation';
-
+import Icon from "react-native-vector-icons/Ionicons";
 
 import WelcomeScreen from './components/public/Welcome';
 import LoginScreen from './components/public/Login';
@@ -20,26 +20,94 @@ export default class App extends Component {
   }
 }
 
-const AuthStackNavigator = createStackNavigator({
-  Register: {screen: RegisterScreen},
-  Login:{screen: LoginScreen},
+const ProfileStackNavigator = createStackNavigator({
+  Profile: ProfileScreen
 },{
-  initialRouteName: 'Login'
+  defaultNavigationOptions: ({navigation}) =>{
+    return {
+      headerLeft: <Icon name="md-menu" style={{paddingLeft:15}} size={30} onPress={() => {navigation.openDrawer()}}/>
+    }
+  },navigationOptions : ({navigation}) => {
+    //const {routeName} = navigation.state.routes[navigation.state.index];
+    return {
+      drawerLabel: 'Profile'
+    }
+  }
 });
 
+const NotificationStackNavigator = createStackNavigator({
+  Notification: NotificationScreen
+},{
+  defaultNavigationOptions: ({navigation}) =>{
+    return {
+      headerLeft: <Icon name="md-menu" style={{paddingLeft:15}} size={30} onPress={() => {navigation.openDrawer()}}/>
+    }
+  },navigationOptions :  {
+    drawerLabel: 'Notifications',
+  }
+});
+
+const ProfilePhotoStackNavigator = createStackNavigator({
+  ProfilePhoto: ProfilePhotoScreen
+},{
+  defaultNavigationOptions: ({navigation}) =>{
+    return {
+      headerLeft: <Icon name="md-menu" style={{paddingLeft:15}} size={30} onPress={() => {navigation.openDrawer()}}/>
+    }
+  },navigationOptions :  {
+    drawerLabel: 'Profile Photo',
+  }
+});
+
+const FacebookStackNavigator = createStackNavigator({
+  Facebook: FacebookScreen
+},{
+  defaultNavigationOptions: ({navigation}) =>{
+    return {
+      headerLeft: <Icon name="md-menu" style={{paddingLeft:15}} size={30} onPress={() => {navigation.openDrawer()}}/>
+    }
+  },navigationOptions :  {
+    drawerLabel: 'Facebook',
+  }
+});
+
+const ChatStackNavigator = createStackNavigator({
+  Chat: ChatScreen
+},{
+  defaultNavigationOptions: ({navigation}) =>{
+    return {
+      headerLeft: <Icon name="md-menu" style={{paddingLeft:15}} size={30} onPress={() => {navigation.openDrawer()}}/>
+    }
+  },navigationOptions :  {
+    drawerLabel: 'Chat',
+  }
+});
+
+const LogoutStackNavigator = createStackNavigator({
+  Logout: LogoutScreen
+},{
+  defaultNavigationOptions: ({navigation}) =>{
+    return {
+      headerLeft: <Icon name="md-menu" style={{paddingLeft:15}} size={30} onPress={() => {navigation.openDrawer()}}/>
+    }
+  },navigationOptions :  {
+    drawerLabel: 'Logout',
+  }
+});
 
 const AppDrawerNavigator = createDrawerNavigator({
-  Profile: ProfileScreen,
-  Notification: NotificationScreen,
-  ProfilePhoto: ProfilePhotoScreen,
-  Facebook: FacebookScreen,
-  Chat: ChatScreen,
-  Logout: LogoutScreen
+  ProfileStack: ProfileStackNavigator,
+  NotificationStack: NotificationStackNavigator,
+  ProfilePhotoStack: ProfilePhotoStackNavigator,
+  FacebookStack: FacebookStackNavigator,
+  ChatStack: ChatStackNavigator,
+  LogoutStack: LogoutStackNavigator
 });
 
 const AppSwitchNavigator = createSwitchNavigator({
   Welcome: WelcomeScreen,
-  Auth: AuthStackNavigator,
+  Login: LoginScreen,
+  Register: RegisterScreen,
   App: AppDrawerNavigator
 },{
   initialRouteName: 'Welcome'
