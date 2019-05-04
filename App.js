@@ -11,6 +11,7 @@ import LogoutScreen from './components/Logout';
 import ProfilePhotoScreen from './components/ProfilePhoto';
 import FacebookScreen from './components/Facebook';
 import ChatScreen from './components/Chat';
+import SettingsScreen from './components/Settings';
 
 export default class App extends Component {
   render() {
@@ -83,6 +84,18 @@ const ChatStackNavigator = createStackNavigator({
   }
 });
 
+const SettingsStackNavigator = createStackNavigator({
+  Settings: SettingsScreen
+},{
+  defaultNavigationOptions: ({navigation}) =>{
+    return {
+      headerLeft: <Icon name="md-menu" style={{paddingLeft:15}} size={30} onPress={() => {navigation.openDrawer()}}/>
+    }
+  },navigationOptions :  {
+    drawerLabel: 'Settings',
+  }
+});
+
 const LogoutStackNavigator = createStackNavigator({
   Logout: LogoutScreen
 },{
@@ -101,6 +114,7 @@ const AppDrawerNavigator = createDrawerNavigator({
   ProfilePhotoStack: ProfilePhotoStackNavigator,
   FacebookStack: FacebookStackNavigator,
   ChatStack: ChatStackNavigator,
+  SettingsStack: SettingsStackNavigator,
   LogoutStack: LogoutStackNavigator
 });
 
