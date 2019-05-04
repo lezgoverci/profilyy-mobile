@@ -26,13 +26,14 @@ class Logout extends Component{
 
     render(){
         return(
-            <View>
-                <Text>Logout</Text>
-                <Button
-                    style={{paddingTop: 20 }}
-                    onPress={(e) => { this.handleLogout(e)}}
-                    title="Logout" 
-                />
+            <View style={{padding:15}}>
+                <Text>Click the button below to logout</Text>
+                <View style={{marginTop: 20 }}>
+                    <Button
+                        onPress={(e) => { this.handleLogout(e)}}
+                        title="Logout" 
+                    />
+                </View>
             </View>
         )
     }
