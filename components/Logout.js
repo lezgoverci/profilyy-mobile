@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import {Button, View, Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-class Profile extends Component{
+class Logout extends Component{
+
+    static navigationOptions = {
+        drawerLabel: 'Logout',
+      };
 
     handleLogout(e){
         e.preventDefault();
@@ -20,18 +24,20 @@ class Profile extends Component{
         
         console.log('Done.')
     }
+
     render(){
         return(
             <View>
-                <Text>Profile</Text>
+                <Text>Logout</Text>
                 <Button
                     style={{paddingTop: 20 }}
                     onPress={(e) => { this.handleLogout(e)}}
                     title="Logout" 
                 />
+                <Button onPress={() => {this.props.navigation.openDrawer()}} title="Drawer" />
             </View>
         )
     }
 }
 
-export default Profile;
+export default Logout;

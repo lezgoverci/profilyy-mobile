@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
-import {createSwitchNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
+import {createSwitchNavigator, createStackNavigator, createDrawerNavigator, createAppContainer} from 'react-navigation';
 
 
 import WelcomeScreen from './components/public/Welcome';
 import LoginScreen from './components/public/Login';
 import RegisterScreen from './components/public/Register';
-import ProfileScreen from './components/public/Profile';
+import ProfileScreen from './components/Profile';
+import NotificationScreen from './components/Notification';
+import LogoutScreen from './components/Logout';
+import ProfilePhotoScreen from './components/ProfilePhoto';
+import FacebookScreen from './components/Facebook';
+import ChatScreen from './components/Chat';
 
 export default class App extends Component {
   render() {
@@ -22,14 +27,20 @@ const AuthStackNavigator = createStackNavigator({
   initialRouteName: 'Login'
 });
 
-const AppStackNavigator = createStackNavigator({
-  Profile: ProfileScreen
+
+const AppDrawerNavigator = createDrawerNavigator({
+  Profile: ProfileScreen,
+  Notification: NotificationScreen,
+  ProfilePhoto: ProfilePhotoScreen,
+  Facebook: FacebookScreen,
+  Chat: ChatScreen,
+  Logout: LogoutScreen
 });
 
 const AppSwitchNavigator = createSwitchNavigator({
   Welcome: WelcomeScreen,
   Auth: AuthStackNavigator,
-  App: AppStackNavigator
+  App: AppDrawerNavigator
 },{
   initialRouteName: 'Welcome'
 });
