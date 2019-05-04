@@ -6,7 +6,7 @@ class Login extends Component{
 
     constructor(props){
         super(props);
-        this.state = {email:"", password:"", access_token:""};
+        this.state = {email:"", password:"", access_token:"", user_id:""};
     }
 
     componentDidMount(){
@@ -27,9 +27,13 @@ class Login extends Component{
             }).then(res => res.json())
             .then(response => {
                 console.log(response);
-                this.setState({access_token: response.access_token});
-                this.storeToken();
-                //ToastAndroid.show("response.message", ToastAndroid.SHORT);
+                this.setState({
+                    access_token: response.access_token,
+                    user_id: response.data.id
+                });
+               this.storeData('access_token',this.state.access_token);
+                this.storeData('user_id',this.state.user_id + "");
+                
                 this.props.navigation.navigate('Welcome');
             })
         }else{
@@ -50,9 +54,13 @@ class Login extends Component{
         
     }
 
-    storeToken = async () => {
+    storeData = async (key, value) => {
         try {
-          await AsyncStorage.setItem('access_token', this.state.access_token)
+          await AsyncStorage.setItem(key, value,()=>{
+              AsyncStorage.getItem(key,(err,result)=>{
+                  console.log(result);
+              })
+          })
         } catch (e) {
           console.log(e);
         }

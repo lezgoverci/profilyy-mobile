@@ -16,6 +16,7 @@ class Register extends Component{
             gender: "",
             password: "",
             access_token: "",
+            user_id: ""
         };
     }
 
@@ -33,41 +34,56 @@ class Register extends Component{
                 email: this.state.email,
                 password: this.state.password,
             })
-        }).then(res => res.json())
+        })
+        .then(res => res.json())
         .then(response => {
+            console.log(response);
             if(response.access_token != null){
-                this.setState({access_token: response.access_token});
-                this.storeToken();
-
-                fetch(appUrl + "/api/account",{
-                    'method' : 'POST',
-                    'headers' : {'Content-type':'application/json'},
-                    'body' : JSON.stringify({
-                        fname: this.state.fname,
-                        lname: this.state.lname,
-                        address: this.state.address,
-                        phone: this.state.phone,
-                        gender: this.state.gender,
-                        api_token: this.state.access_token
+                this.setState({
+                    access_token: response.access_token,
+                    user_id: response.data.id
+                },()=>{
+                    this.storeData('access_token', this.state.access_token)
+                    .then(()=>{
+                        this.storeData('user_id', this.state.user_id + "")
                     })
-                }).then(res => res.json())
-                .then(response  => {
-                    if(response.data != null){
-                        if(response.data != null){
-                            ToastAndroid.show("Account created", ToastAndroid.SHORT);
-                            this.props.navigation.navigate('Welcome');
-                        }
-                    }
-                })
+                    .then(()=>{
+                        fetch(appUrl + "/api/account",{
+                            'method' : 'POST',
+                            'headers' : {'Content-type':'application/json'},
+                            'body' : JSON.stringify({
+                                fname: this.state.fname,
+                                lname: this.state.lname,
+                                address: this.state.address,
+                                phone: this.state.phone,
+                                gender: this.state.gender,
+                                api_token: this.state.access_token,
+                                user_id: this.state.user_id
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(response  => {
+                            console.log(response);
+                            if(response.data != null){
+                                ToastAndroid.show("Account created", ToastAndroid.SHORT);
+                                this.props.navigation.navigate('Welcome');
+                                
+                            }
+                        })
+                    })
+                });
+                
+
+                
             }
             
         })
         
     }
 
-    storeToken = async () => {
+    storeData = async (key, value) => {
         try {
-          await AsyncStorage.setItem('access_token', this.state.access_token)
+          await AsyncStorage.setItem(key, value)
         } catch (e) {
           console.log(e);
         }
