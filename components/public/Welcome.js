@@ -12,11 +12,13 @@ class Welcome extends Component{
 
     _checkAuth = async () =>{
         try{
-            const value = await AsyncStorage.getItem('@storage_key');
+            const value = await AsyncStorage.getItem('access_token');
             if(value !== null){
                 this.props.navigation.navigate('App');
             }else{
-                this.props.navigation.navigate('Auth');
+                this.props.navigation.navigate('Auth',{
+                    access_token: value
+                });
             }
         }catch(e){
             console.log(e);
