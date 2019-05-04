@@ -10,11 +10,18 @@ class Login extends Component{
     }
 
     componentDidMount(){
-        this.setState({access_token: this.props.navigation.getParam('access_token', null)})
+        this.getData('access_token').then(res => {
+            this.setState({access_token:res})
+        });
+
+        this.getData('user_id').then(res => {
+            this.setState({user_id:res});
+        });
     }
 
     handleLogin(e){
         e.preventDefault();
+        
         if(this.state.access_token == null){
             fetch(appUrl + "/api/authenticate",{
                 'method' : 'POST',
@@ -24,15 +31,20 @@ class Login extends Component{
                     'password': this.state.password,
                     'access_token' : this.state.access_token
                 })
-            }).then(res => res.json())
+            })
+            .then(res => res.json())
             .then(response => {
                 console.log(response);
                 this.setState({
                     access_token: response.access_token,
                     user_id: response.data.id
+                },()=>{
+                    this.storeData('access_token',this.state.access_token);
+                    this.storeData('user_id',this.state.user_id +"");
                 });
-               this.storeData('access_token',this.state.access_token);
-                this.storeData('user_id',this.state.user_id + "");
+                
+               
+                //this.storeData('user_id',this.state.user_id + "");
                 
                 this.props.navigation.navigate('Welcome');
             })
@@ -56,14 +68,22 @@ class Login extends Component{
 
     storeData = async (key, value) => {
         try {
-          await AsyncStorage.setItem(key, value,()=>{
-              AsyncStorage.getItem(key,(err,result)=>{
-                  console.log(result);
-              })
-          })
+            
+          await AsyncStorage.setItem(key, value)
         } catch (e) {
           console.log(e);
         }
+      }
+
+      getData = async (key) =>{
+         
+          try{
+              const value = AsyncStorage.getItem(key);
+              return value;
+          }catch(e){
+              console.log(e)
+          }
+          
       }
 
     render(){

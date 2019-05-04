@@ -18,6 +18,8 @@ class Profile extends Component{
             phone: "",
             gender: "",
             email: "",
+            facebook_username:"",
+            photo:"",
             user_id: "",
             access_token: ""
         };
@@ -25,28 +27,50 @@ class Profile extends Component{
 
     componentDidMount(){
         this.getData("user_id").then(res =>{
-            this.setState({user_id: res},()=>{console.log(this.state.user_id)})
             
-        }).then(()=>{
-            this.getData("access_token").then(res =>{
-                this.setState({access_token: res},()=>{console.log(this.state.access_token)})
+            this.setState({user_id: res})
+            
+        })
+
+        this.getData("access_token").then(res =>{
                 
-            })
-        }).then(()=>{
+            this.setState({access_token: res})
+            
+        })
+        .then(()=>{
+            console.log(this.state.access_token);
+            console.log(this.state.user_id);
+        })
+        .then(()=>{
             if(this.state.user_id != null && this.state.access_token != null){
                 fetch(appUrl + "/api/user/account",{
                     'method': 'POST',
                     'headers' : {'Content-type': 'application/json'},
                     'body': JSON.stringify({
                         'api_token': this.state.access_token,
-                        'id': this.state.user_id
+                        'user_id': this.state.user_id
                     })
                 } )
+                .then(res => res.json())
                 .then(response =>{
-                    console.log(response);
+                    if(response.data != null){
+                        this.setState({
+                            fname: response.data.fname,
+                            lname: response.data.lname,
+                            address: response.data.address,
+                            phone: response.data.phone,
+                            gender: response.data.gender,
+                            email: response.data.fname,
+                            facebook_username: response.data.facebook_username,
+                            photo: response.data.photo
+                            
+                        });
+                    }
                 });
             }
         })
+
+        
 
         
         
@@ -71,30 +95,38 @@ class Profile extends Component{
 
     render(){
         return(
-            <View>
-                <View>
-                    <Text>First Name</Text>  
+            <View style={{padding:15}}>
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>First Name</Text>  
                     <Text>{this.state.fname}</Text>  
                 </View>
-                <View>
-                    <Text>Last Name</Text>  
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>Last Name</Text>  
                     <Text>{this.state.lname}</Text>  
                 </View>
-                <View>
-                    <Text>Address</Text>  
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>Address</Text>  
                     <Text>{this.state.address}</Text>  
                 </View>
-                <View>
-                    <Text>Phone</Text>  
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>Phone</Text>  
                     <Text>{this.state.phone}</Text>  
                 </View>
-                <View>
-                    <Text>Gender</Text>  
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>Gender</Text>  
                     <Text>{this.state.gender}</Text>  
                 </View>
-                <View>
-                    <Text>Email</Text>  
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>Email</Text>  
                     <Text>{this.state.email}</Text>  
+                </View>
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>Facebook username</Text>  
+                    <Text>{this.state.facebook_username}</Text>  
+                </View>
+                <View style={{paddingBottom:15}}>
+                    <Text style={{fontWeight: "600"}}>Photo</Text>  
+                    <Text>{this.state.photo}</Text>  
                 </View>
           </View>
         )
