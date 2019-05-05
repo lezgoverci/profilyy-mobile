@@ -50,7 +50,7 @@ class Profile extends Component{
 
     updateScreen(){
         this.getData('account_data').then(res => {
-            if(res != null){
+            if(res == null){
                 if(this.state.user_id != null && this.state.access_token != null){
                     fetch(appUrl + "/api/user/account",{
                         'method': 'POST',
@@ -91,6 +91,20 @@ class Profile extends Component{
                         }));
                     });
                 }
+            }else{
+                const account_data = JSON.parse(res);
+                console.log(account_data);
+                this.setState({
+                    fname: account_data.fname,
+                    lname: account_data.lname,
+                    address: account_data.address,
+                    phone: account_data.phone,
+                    gender: account_data.gender,
+                    email: account_data.fname,
+                    facebook_username: account_data.facebook_username,
+                    photo: account_data.photo,
+                    account_id: account_data.account_id
+                });
             }
         })
         

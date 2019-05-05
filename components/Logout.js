@@ -14,7 +14,7 @@ class Logout extends Component{
     }
 
     removeToken = async () => {
-        const keys = ['access_token','user_id'];
+        const keys = ['access_token','user_id','account_data'];
         try {
             await AsyncStorage.multiRemove(keys)
         } catch(e) {
