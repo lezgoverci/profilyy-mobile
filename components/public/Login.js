@@ -35,18 +35,23 @@ class Login extends Component{
             .then(res => res.json())
             .then(response => {
                 console.log(response);
-                this.setState({
-                    access_token: response.access_token,
-                    user_id: response.data.id
-                },()=>{
-                    this.storeData('access_token',this.state.access_token);
-                    this.storeData('user_id',this.state.user_id +"");
-                });
+                if(response.data != null){
+                    this.setState({
+                        access_token: response.access_token,
+                        user_id: response.data.id
+                    },()=>{
+                        this.storeData('access_token',this.state.access_token);
+                        this.storeData('user_id',this.state.user_id +"");
+                    });
+                    
+                   
+                    //this.storeData('user_id',this.state.user_id + "");
+                    
+                    this.props.navigation.navigate('Welcome');
+                }else{
+                    ToastAndroid.show(response.message, ToastAndroid.SHORT);
+                }
                 
-               
-                //this.storeData('user_id',this.state.user_id + "");
-                
-                this.props.navigation.navigate('Welcome');
             })
         }else{
             fetch(appUrl+"/api/login",{
