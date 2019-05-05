@@ -9,6 +9,7 @@ import ProfileScreen from './components/Profile';
 import NotificationScreen from './components/Notification';
 import LogoutScreen from './components/Logout';
 import ProfilePhotoScreen from './components/ProfilePhoto';
+import EditPhotoScreen from './components/EditPhoto';
 import FacebookScreen from './components/Facebook';
 import ChatScreen from './components/Chat';
 import SettingsScreen from './components/Settings';
@@ -49,7 +50,8 @@ const NotificationStackNavigator = createStackNavigator({
 });
 
 const ProfilePhotoStackNavigator = createStackNavigator({
-  ProfilePhoto: ProfilePhotoScreen
+  ProfilePhoto: ProfilePhotoScreen,
+  EditPhoto: EditPhotoScreen
 },{
   defaultNavigationOptions: ({navigation}) =>{
     return {

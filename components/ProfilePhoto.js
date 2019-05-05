@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, View, Text, ScrollView, CameraRoll, Image} from 'react-native';
+import {Button, View, Text, ScrollView, CameraRoll, Image, TouchableNativeFeedback} from 'react-native';
 
 
 class ProfilePhoto extends Component{
@@ -33,15 +33,17 @@ class ProfilePhoto extends Component{
                 <ScrollView>
                 {this.state.photos.map((p, i) => {
                 return (
-                    <View key={i} style={{marginTop:15}}>
-                        <Image
-                        style={{
-                            flex:1,
-                            height:p.node.image.height
-                        }}
-                        source={{ uri: p.node.image.uri }}
-                        />
-                    </View>
+                    <TouchableNativeFeedback key={i}  onPress={()=>{this.props.navigation.navigate('EditPhoto',{uri:p.node.image.uri, height:p.node.image.height})}}>
+                        <View style={{marginTop:15}} >
+                            <Image
+                            style={{
+                                flex:1,
+                                height:p.node.image.height
+                            }}
+                            source={{ uri: p.node.image.uri }}
+                            />
+                        </View>
+                    </TouchableNativeFeedback>
                 );
                 })}
                 </ScrollView>
