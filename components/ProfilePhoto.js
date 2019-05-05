@@ -38,8 +38,8 @@ class ProfilePhoto extends Component{
                         <View style={{marginTop:15}} >
                             <Image
                             style={{
-                                flex:1,
-                                height:p.node.image.height
+                                
+                                height:150
                             }}
                             source={{ uri: p.node.image.uri }}
                             />

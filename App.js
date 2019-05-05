@@ -13,6 +13,7 @@ import EditPhotoScreen from './components/EditPhoto';
 import FacebookScreen from './components/Facebook';
 import ChatScreen from './components/Chat';
 import SettingsScreen from './components/Settings';
+import PhotoPreviewScreen from './components/PhotoPreview';
 
 export default class App extends Component {
   render() {
@@ -51,7 +52,8 @@ const NotificationStackNavigator = createStackNavigator({
 
 const ProfilePhotoStackNavigator = createStackNavigator({
   ProfilePhoto: ProfilePhotoScreen,
-  EditPhoto: EditPhotoScreen
+  EditPhoto: EditPhotoScreen,
+  PhotoPreview: PhotoPreviewScreen
 },{
   defaultNavigationOptions: ({navigation}) =>{
     return {
