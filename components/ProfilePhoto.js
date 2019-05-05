@@ -33,7 +33,8 @@ class ProfilePhoto extends Component{
                 <ScrollView>
                 {this.state.photos.map((p, i) => {
                 return (
-                    <TouchableNativeFeedback key={i}  onPress={()=>{this.props.navigation.navigate('EditPhoto',{uri:p.node.image.uri, height:p.node.image.height})}}>
+                    <TouchableNativeFeedback key={i}  
+                        onPress={()=>{this.props.navigation.navigate('EditPhoto',{uri:p.node.image.uri, height:p.node.image.height, width:p.node.image.width})}}>
                         <View style={{marginTop:15}} >
                             <Image
                             style={{
