@@ -13,7 +13,7 @@ class Register extends Component{
             address: "",
             email: "",
             phone : "",
-            gender: "",
+            gender: "male",
             password: "",
             access_token: "",
             user_id: ""

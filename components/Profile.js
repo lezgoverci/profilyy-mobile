@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, View, Text} from 'react-native';
+import {Button, View, Text, ToastAndroid} from 'react-native';
 import {url as appUrl} from '../global.json';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -21,7 +21,8 @@ class Profile extends Component{
             facebook_username:"",
             photo:"",
             user_id: "",
-            access_token: ""
+            access_token: "",
+            account_id:""
         };
     }
 
@@ -53,6 +54,7 @@ class Profile extends Component{
                 } )
                 .then(res => res.json())
                 .then(response =>{
+                    console.log(response);
                     if(response.data != null){
                         this.setState({
                             fname: response.data.fname,
@@ -62,10 +64,23 @@ class Profile extends Component{
                             gender: response.data.gender,
                             email: response.data.fname,
                             facebook_username: response.data.facebook_username,
-                            photo: response.data.photo
-                            
+                            photo: response.data.photo,
+                            account_id: response.data.id
                         });
                     }
+
+                    this.storeData('account_id',response.data.id +"");
+                    this.storeData('account_data', JSON.stringify({
+                        fname: response.data.fname,
+                        lname: response.data.lname,
+                        address: response.data.address,
+                        phone: response.data.phone,
+                        gender: response.data.gender,
+                        email: response.data.fname,
+                        facebook_username: response.data.facebook_username,
+                        photo: response.data.photo,
+                        account_id: response.data.id
+                    }));
                 });
             }
         })
@@ -80,6 +95,10 @@ class Profile extends Component{
 
     }
 
+    componentDidUpdate(){
+        ToastAndroid.show("hi", ToastAndroid.SHORT);
+    }
+
     getData = async (key) =>{
         try{
             const value = await AsyncStorage.getItem(key);
@@ -92,6 +111,14 @@ class Profile extends Component{
             console.log(e);
         }
     }
+
+    storeData = async (key, value) => {
+        try {
+          await AsyncStorage.setItem(key, value)
+        } catch (e) {
+          console.log(e);
+        }
+      }
 
     render(){
         return(
