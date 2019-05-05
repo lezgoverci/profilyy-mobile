@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, View, Text, ToastAndroid} from 'react-native';
 import {url as appUrl} from '../global.json';
 import AsyncStorage from '@react-native-community/async-storage';
+import { NavigationEvents } from 'react-navigation';
 
 class Profile extends Component{
 
@@ -43,20 +44,41 @@ class Profile extends Component{
             console.log(this.state.user_id);
         })
         .then(()=>{
-            if(this.state.user_id != null && this.state.access_token != null){
-                fetch(appUrl + "/api/user/account",{
-                    'method': 'POST',
-                    'headers' : {'Content-type': 'application/json'},
-                    'body': JSON.stringify({
-                        'api_token': this.state.access_token,
-                        'user_id': this.state.user_id
-                    })
-                } )
-                .then(res => res.json())
-                .then(response =>{
-                    console.log(response);
-                    if(response.data != null){
-                        this.setState({
+           // this.updateScreen();
+        })
+    }
+
+    updateScreen(){
+        this.getData('account_data').then(res => {
+            if(res != null){
+                if(this.state.user_id != null && this.state.access_token != null){
+                    fetch(appUrl + "/api/user/account",{
+                        'method': 'POST',
+                        'headers' : {'Content-type': 'application/json'},
+                        'body': JSON.stringify({
+                            'api_token': this.state.access_token,
+                            'user_id': this.state.user_id
+                        })
+                    } )
+                    .then(res => res.json())
+                    .then(response =>{
+                        console.log(response);
+                        if(response.data != null){
+                            this.setState({
+                                fname: response.data.fname,
+                                lname: response.data.lname,
+                                address: response.data.address,
+                                phone: response.data.phone,
+                                gender: response.data.gender,
+                                email: response.data.fname,
+                                facebook_username: response.data.facebook_username,
+                                photo: response.data.photo,
+                                account_id: response.data.id
+                            });
+                        }
+        
+                        this.storeData('account_id',response.data.id +"");
+                        this.storeData('account_data', JSON.stringify({
                             fname: response.data.fname,
                             lname: response.data.lname,
                             address: response.data.address,
@@ -66,37 +88,12 @@ class Profile extends Component{
                             facebook_username: response.data.facebook_username,
                             photo: response.data.photo,
                             account_id: response.data.id
-                        });
-                    }
-
-                    this.storeData('account_id',response.data.id +"");
-                    this.storeData('account_data', JSON.stringify({
-                        fname: response.data.fname,
-                        lname: response.data.lname,
-                        address: response.data.address,
-                        phone: response.data.phone,
-                        gender: response.data.gender,
-                        email: response.data.fname,
-                        facebook_username: response.data.facebook_username,
-                        photo: response.data.photo,
-                        account_id: response.data.id
-                    }));
-                });
+                        }));
+                    });
+                }
             }
         })
-
         
-
-        
-        
-        
-
-
-
-    }
-
-    componentDidUpdate(){
-        ToastAndroid.show("hi", ToastAndroid.SHORT);
     }
 
     getData = async (key) =>{
@@ -123,6 +120,9 @@ class Profile extends Component{
     render(){
         return(
             <View style={{padding:15}}>
+                <NavigationEvents
+                    onWillFocus={() => {this.updateScreen()}}
+                />
                 <View style={{paddingBottom:15}}>
                     <Text style={{fontWeight: "600"}}>First Name</Text>  
                     <Text>{this.state.fname}</Text>  

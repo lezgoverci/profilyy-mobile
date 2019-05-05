@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Button, View, Text, TextInput, Picker, ScrollView, ToastAndroid} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {url as appUrl} from '../global.json';
-import { NavigationEvents } from 'react-navigation';
 
 class Settings extends Component{
     static navigationOptions = {
@@ -172,9 +171,6 @@ class Settings extends Component{
     render(){
         return(
             <ScrollView>
-                <NavigationEvents
-                    onDidFocus={() => {this.updateScreen()}}
-                />
             <View style={{padding:15}}>
                 <Text style={{marginTop:30}}>First name</Text>
                     <TextInput
